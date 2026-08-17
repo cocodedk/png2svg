@@ -53,58 +53,58 @@
 </head>
 <body>
   <header class="site-header">
-    <a class="brand" href="./" aria-label="png2svg home"><span class="brand-mark">P→S</span>png2svg</a>
+    <a class="brand" href="./" aria-label="png2svg home"><span class="brand-mark" aria-hidden="true">P→S</span><span>png2svg</span></a>
     <nav aria-label="Primary navigation">
-      <a href="#install">Install</a>
+      <a href="#proof">Live proof</a>
       <a href="https://github.com/cocodedk/png2svg">GitHub</a>
       <a class="language" href="fa/" lang="fa" hreflang="fa">فارسی</a>
     </nav>
   </header>
   <main>
-    <section class="hero">
+    <section class="hero" id="proof">
       <div class="hero-copy">
-        <p class="eyebrow">VECTOR-ONLY · LOCAL · PYTHON 3.10+</p>
-        <h1>PNG to SVG CLI.<br><span>Pixels in. Paths out.</span></h1>
-        <p class="lead">Trace icons, sprites, and pixel art without embedding the original raster. Exact mode preserves every visible RGBA pixel; web mode trades detail for a much lighter file.</p>
+        <p class="eyebrow"><span></span>OPEN SOURCE · RUNS LOCALLY</p>
+        <h1>A PNG to SVG CLI for <em>honest paths.</em></h1>
+        <p class="lead">Turn every visible pixel into real SVG geometry. Keep exact color and alpha, choose the rendered size, or use one flag for a compact website asset.</p>
         <div class="actions">
-          <a class="button primary" href="#install">Trace your first PNG</a>
+          <a class="button primary" href="#install">Start converting <span aria-hidden="true">↘</span></a>
           <a class="button secondary" href="https://github.com/cocodedk/png2svg/releases/latest/download/png2svg-cli-dist.zip">Download latest</a>
         </div>
+        <ul class="trust" aria-label="Product properties">
+          <li><span>✓</span>No uploads</li><li><span>✓</span>No embedded PNG</li><li><span>✓</span>One dependency</li>
+        </ul>
       </div>
-      <div class="transform" role="img" aria-label="A pixel grid becomes SVG path commands">
-        <div class="pixel-card">
-          <span class="label">source.png</span>
-          <div class="pixels" aria-hidden="true">
-            <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
-          </div>
-          <small>RGBA pixels</small>
+      <div class="demo-shell">
+        <div class="demo-bar"><span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span><code class="cli-token">--web --width 512</code><span class="real-badge">REAL OUTPUT</span></div>
+        <div class="comparison" dir="ltr">
+          <figure class="asset-card">
+            <figcaption><span><b class="proof-number">INPUT</b><strong>demo-input.png</strong></span><small>1236 × 1273 · 1.1 MB</small></figcaption>
+            <div class="artboard"><img src="demo-input.png" width="1236" height="1273" alt="Original gold M.O.D. brain logo in PNG format"></div>
+          </figure>
+          <div class="flow" aria-label="converts to"><span>→</span><small>PNG TO SVG</small></div>
+          <figure class="asset-card output-card">
+            <figcaption><span><b class="proof-number">OUTPUT</b><strong>demo-output.svg</strong></span><small>512 × 529 · 135 KB</small></figcaption>
+            <div class="artboard"><img src="demo-output.svg" width="512" height="529" alt="The same gold M.O.D. brain logo as vector-only SVG paths"></div>
+          </figure>
         </div>
-        <span class="arrow" aria-hidden="true">→</span>
-        <div class="path-card">
-          <span class="label">output.svg</span>
-          <svg viewBox="0 0 120 120" aria-hidden="true"><path d="M18 18h56v28h28v56H46V74H18z"/></svg>
-          <small>&lt;path d="…"/&gt;</small>
-        </div>
+        <div class="proof-strip"><span><b class="proof-number">16</b> colors</span><span><b class="proof-number">0</b> embedded images</span><span><b class="proof-number">100%</b> SVG paths</span></div>
       </div>
     </section>
-    <section class="feature-grid" aria-labelledby="why-title">
-      <div class="section-heading"><p class="eyebrow">WHAT IT DOES</p><h2 id="why-title">Honest vectors, predictable output</h2></div>
-      <article><b>01</b><h3>Exact by default</h3><p>Color and alpha stay intact. Transparent pixels create no geometry.</p></article>
-      <article><b>02</b><h3>Actually vector-only</h3><p>No base64 payload, embedded PNG, browser trick, or native tracer.</p></article>
-      <article><b>03</b><h3>Built for the web</h3><p><code>--web</code> caps tracing detail and reduces colors for smaller logos and favicons.</p></article>
+    <section class="feature-section" aria-labelledby="why-title">
+      <div class="section-intro"><p class="eyebrow"><span></span>THREE CLEAR MODES</p><h2 id="why-title">Use only the detail you need.</h2><p>Exact mode preserves the pixels. Size controls change how the SVG renders. Web mode reduces trace complexity before conversion.</p></div>
+      <div class="feature-grid">
+        <article><span class="feature-icon">01</span><h3>Pixel exact</h3><p>Every visible RGBA pixel becomes geometry. Ideal for icons, sprites, and pixel art.</p><code class="cli-token">png2svg icon.png</code></article>
+        <article><span class="feature-icon">02</span><h3>Your output size</h3><p>Set width, height, or scale without changing the SVG viewBox geometry.</p><code class="cli-token">--width 512</code></article>
+        <article class="accent-card"><span class="feature-icon">03</span><h3>Light for the web</h3><p>Cap tracing at 128 pixels and reduce the palette to keep detailed logos practical.</p><code class="cli-token">--web</code></article>
+      </div>
     </section>
     <section class="terminal-section" id="install">
-      <div><p class="eyebrow">QUICK START</p><h2>One dependency. One command.</h2><p>Install from GitHub, then write an SVG beside the source PNG.</p></div>
-      <div class="terminal" aria-label="Installation commands"><div class="terminal-bar"><span></span><span></span><span></span></div><pre><code><em>$</em> python -m pip install git+https://github.com/cocodedk/png2svg.git
-<em>$</em> png2svg icon.png
-<em>$</em> png2svg logo.png --web --width 256</code></pre></div>
+      <div class="terminal-copy"><p class="eyebrow"><span></span>QUICK START</p><h2>From install to SVG in two commands.</h2><p>Python 3.10+ and Pillow are all you need. Your images never leave your machine.</p><a href="https://github.com/cocodedk/png2svg#use">See every option <span aria-hidden="true">→</span></a></div>
+      <div class="terminal" aria-label="Installation commands"><div class="terminal-bar"><span>Terminal</span><span>2 COMMANDS</span></div><pre><code class="cli-token"><em>$</em> python -m pip install git+https://github.com/cocodedk/png2svg.git
+<em>$</em> png2svg logo.png --web --width 512</code></pre></div>
     </section>
-    <section class="note">
-      <h2>Know the edge</h2>
-      <p>This is lossless <strong>pixel tracing</strong>, not smooth Bézier tracing for photographs. For a crisp pixel logo, that distinction is the feature.</p>
-      <a href="https://github.com/cocodedk/png2svg#use">Read every CLI option →</a>
-    </section>
+    <section class="note"><div><p class="eyebrow"><span></span>THE HONEST LIMIT</p><h2>Clearer size, not invented detail.</h2></div><div><p>png2svg traces pixels; it does not redraw a blurry logo into smooth Bézier curves. Use exact mode for maximum fidelity and <code class="cli-token">--web</code> when file weight matters more.</p><a href="https://github.com/cocodedk/png2svg">View the source on GitHub →</a></div></section>
   </main>
-  <footer><p>© 2026 <a href="https://cocode.dk" target="_blank" rel="noreferrer">Cocode</a> · Created by <a href="https://linkedin.com/in/babakbandpey" target="_blank" rel="noreferrer">Babak Bandpey</a></p><p>Small tools. Clear contracts.</p></footer>
+  <footer class="page-footer"><a class="brand" href="./"><span class="brand-mark" aria-hidden="true">P→S</span><span>png2svg</span></a><p>© 2026 <a href="https://cocode.dk" target="_blank" rel="noreferrer">Cocode</a> · Created by <a href="https://linkedin.com/in/babakbandpey" target="_blank" rel="noreferrer">Babak Bandpey</a></p><p class="footer-tagline">Small tool. Clear contract.</p></footer>
 </body>
 </html>

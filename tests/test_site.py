@@ -6,6 +6,8 @@ from pathlib import Path
 
 from PIL import Image
 
+from png2svg.converter import convert_png
+
 ROOT = Path(__file__).parents[1]
 WEBSITE = ROOT / "website"
 
@@ -119,6 +121,35 @@ class PublicSiteTests(unittest.TestCase):
         self.assertNotIn('rel="preload"', self.english)
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
         self.assertIn("[فارسی (Persian)]", readme)
+
+    def test_demo_uses_a_real_deterministic_conversion_pair(self) -> None:
+        source = WEBSITE / "demo-input.png"
+        output = WEBSITE / "demo-output.svg"
+
+        self.assertTrue(source.is_file())
+        self.assertTrue(output.is_file())
+        with Image.open(source) as image:
+            self.assertEqual(image.format, "PNG")
+            self.assertEqual(image.size, (1236, 1273))
+        self.assertLess(source.stat().st_size, 1_200_000)
+        self.assertLess(output.stat().st_size, 200_000)
+
+        svg = output.read_text(encoding="utf-8")
+        self.assertEqual(svg, convert_png(source, web=True, output_width=512))
+        self.assertNotIn("<image", svg)
+        self.assertNotIn("data:image", svg)
+
+        references = [
+            (self.english, 'src="demo-input.png"', 'src="demo-output.svg"'),
+            (self.persian, 'src="../demo-input.png"', 'src="../demo-output.svg"'),
+        ]
+        for document, source_ref, output_ref in references:
+            with self.subTest(source=source_ref):
+                self.assertIn(source_ref, document)
+                self.assertIn(output_ref, document)
+                self.assertIn('class="comparison" dir="ltr"', document)
+                self.assertNotIn('class="pixels"', document)
+                self.assertNotIn('d="M18 18h56v28h28v56H46V74H18z"', document)
 
     def test_og_image_has_social_preview_dimensions(self) -> None:
         with Image.open(WEBSITE / "og.png") as image:

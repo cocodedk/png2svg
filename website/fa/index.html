@@ -51,44 +51,58 @@
 </head>
 <body>
   <header class="site-header">
-    <a class="brand" href="../" aria-label="صفحهٔ اصلی png2svg"><span class="brand-mark">P→S</span>png2svg</a>
+    <a class="brand" href="../" aria-label="صفحهٔ اصلی png2svg"><span class="brand-mark" aria-hidden="true">P→S</span><span>png2svg</span></a>
     <nav aria-label="راهبری اصلی">
-      <a href="#install">نصب</a>
+      <a href="#proof">نمونهٔ واقعی</a>
       <a href="https://github.com/cocodedk/png2svg">گیت‌هاب</a>
       <a class="language" href="../" lang="en" hreflang="en">English</a>
     </nav>
   </header>
   <main>
-    <section class="hero">
+    <section class="hero" id="proof">
       <div class="hero-copy">
-        <p class="eyebrow">کاملاً برداری · محلی · پایتون ۳٫۱۰+</p>
-        <h1>تبدیل PNG به SVG.<br><span>پیکسل وارد، مسیر خارج.</span></h1>
-        <p class="lead">آیکون، تصویرک و پیکسل‌آرت را بدون جاسازی تصویر اصلی ردیابی کنید. حالت دقیق همهٔ پیکسل‌های RGBA را نگه می‌دارد؛ حالت وب کمی از جزئیات می‌کاهد تا فایل بسیار سبک‌تر شود.</p>
+        <p class="eyebrow"><span></span>متن‌باز · اجرا روی دستگاه شما</p>
+        <h1>تبدیل PNG به SVG، با <em>مسیرهای واقعی.</em></h1>
+        <p class="lead">هر پیکسل قابل‌مشاهده را به هندسهٔ واقعی SVG تبدیل کنید. رنگ و شفافیت را دقیق نگه دارید، اندازهٔ خروجی را انتخاب کنید یا با یک گزینه فایل مناسب وب بسازید.</p>
         <div class="actions">
-          <a class="button primary" href="#install">نخستین PNG را تبدیل کنید</a>
+          <a class="button primary" href="#install">شروع تبدیل <span aria-hidden="true">↙</span></a>
           <a class="button secondary" href="https://github.com/cocodedk/png2svg/releases/latest/download/png2svg-cli-dist.zip">دریافت آخرین نسخه</a>
         </div>
+        <ul class="trust" aria-label="ویژگی‌های محصول">
+          <li><span>✓</span>بدون بارگذاری</li><li><span>✓</span>بدون PNG جاسازی‌شده</li><li><span>✓</span>تنها یک وابستگی</li>
+        </ul>
       </div>
-      <div class="transform" role="img" aria-label="شبکهٔ پیکسلی به دستورهای مسیر SVG تبدیل می‌شود">
-        <div class="pixel-card"><span class="label">source.png</span><div class="pixels" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><small>پیکسل‌های RGBA</small></div>
-        <span class="arrow" aria-hidden="true">→</span>
-        <div class="path-card"><span class="label">output.svg</span><svg viewBox="0 0 120 120" aria-hidden="true"><path d="M18 18h56v28h28v56H46V74H18z"/></svg><small>&lt;path d="…"/&gt;</small></div>
+      <div class="demo-shell">
+        <div class="demo-bar" dir="ltr"><span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span><code class="cli-token">--web --width 512</code><span class="real-badge">خروجی واقعی</span></div>
+        <div class="comparison" dir="ltr">
+          <figure class="asset-card">
+            <figcaption><span><b class="proof-number">ورودی</b><strong>demo-input.png</strong></span><small>1236 × 1273 · 1.1 MB</small></figcaption>
+            <div class="artboard"><img src="../demo-input.png" width="1236" height="1273" alt="لوگوی طلایی مغز M.O.D. در قالب PNG"></div>
+          </figure>
+          <div class="flow" aria-label="تبدیل می‌شود به"><span>→</span><small>PNG TO SVG</small></div>
+          <figure class="asset-card output-card">
+            <figcaption><span><b class="proof-number">خروجی</b><strong>demo-output.svg</strong></span><small>512 × 529 · 135 KB</small></figcaption>
+            <div class="artboard"><img src="../demo-output.svg" width="512" height="529" alt="همان لوگوی طلایی M.O.D. با مسیرهای کاملاً برداری SVG"></div>
+          </figure>
+        </div>
+        <div class="proof-strip" dir="rtl"><span><b class="proof-number">۱۶</b> رنگ</span><span><b class="proof-number">۰</b> تصویر جاسازی‌شده</span><span><b class="proof-number">۱۰۰٪</b> مسیر <bdi dir="ltr">SVG</bdi></span></div>
       </div>
     </section>
-    <section class="feature-grid" aria-labelledby="why-title">
-      <div class="section-heading"><p class="eyebrow">چه کاری انجام می‌دهد</p><h2 id="why-title">بردار واقعی، خروجی قابل‌پیش‌بینی</h2></div>
-      <article><b>۰۱</b><h3>پیش‌فرض دقیق</h3><p>رنگ و شفافیت حفظ می‌شوند و پیکسل کاملاً شفاف هیچ مسیری نمی‌سازد.</p></article>
-      <article><b>۰۲</b><h3>واقعاً برداری</h3><p>بدون تصویر Base64، PNG جاسازی‌شده، ترفند مرورگر یا برنامهٔ بومی.</p></article>
-      <article><b>۰۳</b><h3>مناسب وب</h3><p>گزینهٔ <code>--web</code> جزئیات و رنگ‌ها را محدود می‌کند تا لوگو و فاوآیکون سبک بمانند.</p></article>
+    <section class="feature-section" aria-labelledby="why-title">
+      <div class="section-intro"><p class="eyebrow"><span></span>سه حالت روشن</p><h2 id="why-title">فقط جزئیات موردنیاز را نگه دارید.</h2><p>حالت دقیق پیکسل‌ها را حفظ می‌کند. تنظیم اندازه، نمایش SVG را تغییر می‌دهد. حالت وب پیش از تبدیل، پیچیدگی تصویر را کاهش می‌دهد.</p></div>
+      <div class="feature-grid">
+        <article><span class="feature-icon">۰۱</span><h3>دقیق در حد پیکسل</h3><p>هر پیکسل قابل‌مشاهدهٔ RGBA به هندسه تبدیل می‌شود؛ مناسب آیکون و پیکسل‌آرت.</p><code class="cli-token">png2svg icon.png</code></article>
+        <article><span class="feature-icon">۰۲</span><h3>اندازهٔ دلخواه</h3><p>عرض، ارتفاع یا مقیاس را بدون تغییر هندسهٔ اصلی viewBox تعیین کنید.</p><code class="cli-token">--width 512</code></article>
+        <article class="accent-card"><span class="feature-icon">۰۳</span><h3>سبک برای وب</h3><p>جزئیات ردیابی و تعداد رنگ‌ها را محدود کنید تا لوگوی پیچیده هم کاربردی بماند.</p><code class="cli-token">--web</code></article>
+      </div>
     </section>
     <section class="terminal-section" id="install">
-      <div><p class="eyebrow">شروع سریع</p><h2>یک وابستگی، یک فرمان</h2><p>از گیت‌هاب نصب کنید و SVG را کنار PNG ورودی بسازید.</p></div>
-      <div class="terminal" dir="ltr" aria-label="فرمان‌های نصب"><div class="terminal-bar"><span></span><span></span><span></span></div><pre><code><em>$</em> python -m pip install git+https://github.com/cocodedk/png2svg.git
-<em>$</em> png2svg icon.png
-<em>$</em> png2svg logo.png --web --width 256</code></pre></div>
+      <div class="terminal-copy"><p class="eyebrow"><span></span>شروع سریع</p><h2>از نصب تا SVG با دو فرمان.</h2><p>پایتون ۳٫۱۰+ و Pillow کافی است. تصویر شما هرگز از دستگاه خارج نمی‌شود.</p><a href="https://github.com/cocodedk/png2svg#use">مشاهدهٔ همهٔ گزینه‌ها <span aria-hidden="true">←</span></a></div>
+      <div class="terminal" dir="ltr" aria-label="فرمان‌های نصب"><div class="terminal-bar"><span>Terminal</span><span>2 COMMANDS</span></div><pre><code class="cli-token"><em>$</em> python -m pip install git+https://github.com/cocodedk/png2svg.git
+<em>$</em> png2svg logo.png --web --width 512</code></pre></div>
     </section>
-    <section class="note"><h2>مرز ابزار را بشناسید</h2><p>این ابزار <strong>پیکسل‌ها را ردیابی می‌کند</strong>؛ برای عکس، منحنی بزیهٔ نرم نمی‌سازد. برای یک لوگوی پیکسلی واضح، همین تفاوت مزیت اصلی است.</p><a href="https://github.com/cocodedk/png2svg#use">همهٔ گزینه‌های خط فرمان ←</a></section>
+    <section class="note"><div><p class="eyebrow"><span></span>مرز روشن ابزار</p><h2>اندازهٔ بهتر، نه جزئیات خیالی.</h2></div><div><p>png2svg پیکسل‌ها را ردیابی می‌کند؛ یک لوگوی تار را با منحنی بزیه از نو طراحی نمی‌کند. برای بیشترین وفاداری حالت دقیق و برای فایل سبک‌تر گزینهٔ <code class="cli-token">--web</code> را به‌کار ببرید.</p><a href="https://github.com/cocodedk/png2svg">مشاهدهٔ کد در گیت‌هاب ←</a></div></section>
   </main>
-  <footer><p>© ۱۴۰۵ <a href="https://cocode.dk" target="_blank" rel="noreferrer">Cocode</a> · ساختهٔ <a href="https://linkedin.com/in/babakbandpey" target="_blank" rel="noreferrer">بابک بندپی</a></p><p>ابزار کوچک، قرارداد روشن.</p></footer>
+  <footer class="page-footer"><a class="brand" href="../"><span class="brand-mark" aria-hidden="true">P→S</span><span>png2svg</span></a><p>© ۱۴۰۵ <a href="https://cocode.dk" target="_blank" rel="noreferrer">Cocode</a> · ساختهٔ <a href="https://linkedin.com/in/babakbandpey" target="_blank" rel="noreferrer">بابک بندپی</a></p><p class="footer-tagline">ابزار کوچک، قرارداد روشن.</p></footer>
 </body>
 </html>
