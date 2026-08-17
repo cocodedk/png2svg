@@ -106,6 +106,7 @@ jobs:
         run: |
           python scripts/versioning.py stamp "$VERSION"
           git diff --exit-code -- . ':(exclude)pyproject.toml' ':(exclude)png2svg/__init__.py'
+          python -m pip install .
           python -m unittest discover -v
 
       - name: Build and verify distributions

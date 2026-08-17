@@ -90,6 +90,7 @@ class ReleaseWorkflowTests(unittest.TestCase):
             "METADATA",
             "PKG-INFO",
             "sha256sum -c SHA256SUMS",
+            "python -m pip install .",
             "cancel-in-progress: false",
         ]
         self.assertTrue(all(token in workflow for token in required))
@@ -102,6 +103,10 @@ class ReleaseWorkflowTests(unittest.TestCase):
         self.assertNotIn("\n  push:", workflow)
         self.assertNotIn("\nenv:\n  GH_TOKEN:", workflow)
         self.assertNotIn("git push origin", workflow)
+        self.assertLess(
+            workflow.index("python -m pip install ."),
+            workflow.index("python -m unittest discover -v"),
+        )
 
     def test_every_release_shell_block_parses(self) -> None:
         workflow = (
