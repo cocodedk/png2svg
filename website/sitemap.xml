@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://cocodedk.github.io/png2svg/</loc>
+    <lastmod>2026-08-17</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cocodedk.github.io/png2svg/"/>
+    <xhtml:link rel="alternate" hreflang="fa" href="https://cocodedk.github.io/png2svg/fa/"/>
+  </url>
+  <url>
+    <loc>https://cocodedk.github.io/png2svg/fa/</loc>
+    <lastmod>2026-08-17</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cocodedk.github.io/png2svg/"/>
+    <xhtml:link rel="alternate" hreflang="fa" href="https://cocodedk.github.io/png2svg/fa/"/>
+  </url>
+</urlset>

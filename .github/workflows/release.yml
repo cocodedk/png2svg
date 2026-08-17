@@ -1,0 +1,185 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: Semantic version bump
+        required: true
+        default: patch
+        type: choice
+        options: [patch, minor, major]
+
+permissions:
+  contents: write
+  id-token: write
+  attestations: write
+
+concurrency:
+  group: release-${{ github.repository }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out all tags
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.12"
+
+      - name: Plan an idempotent release
+        id: plan
+        env:
+          BUMP: ${{ inputs.bump }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+          DISPATCH_BRANCH: ${{ github.ref_name }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ "$DISPATCH_BRANCH" != "$DEFAULT_BRANCH" ]; then
+            echo "Run releases from the default branch: $DEFAULT_BRANCH"; exit 1
+          fi
+          mapfile -t VALID_TAGS < <(
+            git tag --list 'v*' |
+              grep -E '^v(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$' || true
+          )
+          LATEST=""
+          ((${#VALID_TAGS[@]} == 0)) ||
+            LATEST="$(git tag --list "${VALID_TAGS[@]}" --sort=-version:refname | head -n 1)"
+          MODE="new"
+          PUBLISH_TAG="true"
+          REMOTE_TAG="false"
+          TARGET="$GITHUB_SHA"
+          if [ -z "$LATEST" ]; then
+            [ "$BUMP" = "minor" ] || { echo "First release must be minor (v0.1.0)"; exit 1; }
+            VERSION="$(python scripts/versioning.py next "$LATEST" "$BUMP")"
+          else
+            if git ls-remote --exit-code --tags origin "refs/tags/$LATEST"; then
+              REMOTE_TAG="true"
+            fi
+            python scripts/versioning.py next "$LATEST" patch >/dev/null
+            git merge-base --is-ancestor "$LATEST" "$GITHUB_SHA" || {
+              echo "$LATEST is not an ancestor of main"; exit 1;
+            }
+            DRAFT="$(gh release view "$LATEST" --json isDraft --jq .isDraft 2>/dev/null || true)"
+            if [ "$DRAFT" = "true" ] || [ -z "$DRAFT" ]; then
+              MODE="recover"
+              TARGET="$(git rev-parse "$LATEST^{commit}")"
+              VERSION="${LATEST#v}"
+            elif [ "$(git rev-parse "$LATEST^{commit}")" = "$GITHUB_SHA" ]; then
+              MODE="verify"
+              VERSION="${LATEST#v}"
+            else
+              VERSION="$(python scripts/versioning.py next "$LATEST" "$BUMP")"
+            fi
+          fi
+          if [ "$MODE" != "new" ] && [ "$REMOTE_TAG" = "true" ]; then
+            PUBLISH_TAG="false"
+          fi
+          TAG="v$VERSION"
+          if [ "$MODE" = "new" ]; then
+            ! git rev-parse --verify --quiet "refs/tags/$TAG"
+            ! git ls-remote --exit-code --tags origin "refs/tags/$TAG"
+          fi
+          echo "mode=$MODE" >> "$GITHUB_OUTPUT"
+          echo "target=$TARGET" >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "publish_tag=$PUBLISH_TAG" >> "$GITHUB_OUTPUT"
+
+      - name: Check out the release commit
+        if: steps.plan.outputs.mode != 'verify'
+        env:
+          TARGET: ${{ steps.plan.outputs.target }}
+        run: git checkout --detach "$TARGET"
+
+      - name: Stamp and test the release source
+        if: steps.plan.outputs.mode != 'verify'
+        env:
+          VERSION: ${{ steps.plan.outputs.version }}
+        run: |
+          python scripts/versioning.py stamp "$VERSION"
+          git diff --exit-code -- . ':(exclude)pyproject.toml' ':(exclude)png2svg/__init__.py'
+          python -m unittest discover -v
+
+      - name: Build and verify distributions
+        if: steps.plan.outputs.mode != 'verify'
+        env:
+          VERSION: ${{ steps.plan.outputs.version }}
+        run: |
+          python -m pip install --upgrade build twine
+          python -m build
+          WHEEL="png2svg_cli-$VERSION-py3-none-any.whl"
+          SDIST="png2svg_cli-$VERSION.tar.gz"
+          test -f "dist/$WHEEL" && test -f "dist/$SDIST"
+          python -m twine check "dist/$WHEEL" "dist/$SDIST"
+          unzip -p "dist/$WHEEL" "png2svg_cli-$VERSION.dist-info/METADATA" |
+            grep -Fx "Version: $VERSION"
+          tar -xOf "dist/$SDIST" "png2svg_cli-$VERSION/PKG-INFO" |
+            grep -Fx "Version: $VERSION"
+          python -m pip install --force-reinstall --no-deps "dist/$WHEEL"
+          python -c "from importlib.metadata import version; assert version('png2svg-cli') == '$VERSION'"
+          (cd dist && python -m zipfile -c png2svg-cli-dist.zip "$WHEEL" "$SDIST")
+          (cd dist && sha256sum "$WHEEL" "$SDIST" png2svg-cli-dist.zip > SHA256SUMS)
+          (cd dist && sha256sum png2svg-cli-dist.zip > png2svg-cli-dist.zip.sha256)
+          (cd dist && sha256sum -c SHA256SUMS && sha256sum -c png2svg-cli-dist.zip.sha256)
+
+      - name: Retain workflow artifacts
+        if: steps.plan.outputs.mode != 'verify'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: png2svg-cli-${{ steps.plan.outputs.version }}
+          path: dist/*
+
+      - name: Attest release artifacts
+        if: steps.plan.outputs.mode != 'verify'
+        uses: actions/attest-build-provenance@43d14bc2b83dec42d39ecae14e916627a18bb661 # v3
+        with:
+          subject-path: dist/*
+
+      - name: Publish the annotated tag
+        if: steps.plan.outputs.publish_tag == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.plan.outputs.tag }}
+          TARGET: ${{ steps.plan.outputs.target }}
+        run: |
+          TAG_OBJECT="$(gh api --method POST \
+            "repos/$GITHUB_REPOSITORY/git/tags" \
+            -f tag="$TAG" -f message="Release $TAG" \
+            -f object="$TARGET" -f type="commit" --jq .sha)"
+          gh api --method POST "repos/$GITHUB_REPOSITORY/git/refs" \
+            -f ref="refs/tags/$TAG" -f sha="$TAG_OBJECT"
+
+      - name: Create or repair the draft release
+        if: steps.plan.outputs.mode != 'verify'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.plan.outputs.tag }}
+        run: |
+          gh release view "$TAG" >/dev/null 2>&1 || gh release create "$TAG" \
+            --draft --verify-tag --generate-notes --title "$TAG"
+          gh release upload "$TAG" dist/* --clobber
+          gh release edit "$TAG" --draft=false --latest
+
+      - name: Verify the published release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.plan.outputs.tag }}
+          VERSION: ${{ steps.plan.outputs.version }}
+        run: |
+          ASSETS="$(gh release view "$TAG" --json assets --jq '.assets[].name')"
+          for NAME in "png2svg_cli-$VERSION-py3-none-any.whl" \
+            "png2svg_cli-$VERSION.tar.gz" png2svg-cli-dist.zip \
+            png2svg-cli-dist.zip.sha256 SHA256SUMS; do
+            grep -Fx "$NAME" <<<"$ASSETS"
+          done
+          test "$(gh release view "$TAG" --json isDraft --jq .isDraft)" = "false"
+          curl --fail --silent --show-error --location --head \
+            "https://github.com/cocodedk/png2svg/releases/latest/download/png2svg-cli-dist.zip"

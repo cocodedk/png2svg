@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PNG to SVG CLI — Lossless Pixel Tracing Tool · png2svg</title>
+  <meta name="description" content="Convert PNG pixels into vector-only SVG paths with a lossless Python CLI for icons, sprites, and pixel art. Install png2svg and trace your first image.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://cocodedk.github.io/png2svg/">
+  <link rel="alternate" hreflang="en" href="https://cocodedk.github.io/png2svg/">
+  <link rel="alternate" hreflang="fa" href="https://cocodedk.github.io/png2svg/fa/">
+  <link rel="alternate" hreflang="x-default" href="https://cocodedk.github.io/png2svg/">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="styles.css">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="png2svg">
+  <meta property="og:title" content="png2svg — PNG pixels in, SVG paths out">
+  <meta property="og:description" content="A lossless Python CLI for converting icons, sprites, and pixel art into vector-only SVG paths.">
+  <meta property="og:url" content="https://cocodedk.github.io/png2svg/">
+  <meta property="og:image" content="https://cocodedk.github.io/png2svg/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="A pixel grid transforming into compact SVG path geometry">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="fa_IR">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="png2svg — PNG pixels in, SVG paths out">
+  <meta name="twitter:description" content="Lossless pixel tracing for icons, sprites, and pixel art.">
+  <meta name="twitter:image" content="https://cocodedk.github.io/png2svg/og.png">
+  <meta name="twitter:image:alt" content="A pixel grid transforming into compact SVG path geometry">
+  <!-- SEO: primary="PNG to SVG CLI"; secondary="pixel art to SVG, icon tracing"; intent="informational, install". -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "png2svg",
+    "description": "A Python CLI that converts visible PNG pixels into vector-only SVG paths.",
+    "url": "https://cocodedk.github.io/png2svg/",
+    "downloadUrl": "https://github.com/cocodedk/png2svg/releases/latest/download/png2svg-cli-dist.zip",
+    "codeRepository": "https://github.com/cocodedk/png2svg",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Linux, macOS, Windows",
+    "inLanguage": "en",
+    "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+    "author": {
+      "@type": "Person",
+      "name": "Babak Bandpey",
+      "url": "https://cocode.dk",
+      "sameAs": ["https://linkedin.com/in/babakbandpey", "https://github.com/cocodedk"]
+    }
+  }
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="./" aria-label="png2svg home"><span class="brand-mark">P→S</span>png2svg</a>
+    <nav aria-label="Primary navigation">
+      <a href="#install">Install</a>
+      <a href="https://github.com/cocodedk/png2svg">GitHub</a>
+      <a class="language" href="fa/" lang="fa" hreflang="fa">فارسی</a>
+    </nav>
+  </header>
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">VECTOR-ONLY · LOCAL · PYTHON 3.10+</p>
+        <h1>PNG to SVG CLI.<br><span>Pixels in. Paths out.</span></h1>
+        <p class="lead">Trace icons, sprites, and pixel art without embedding the original raster. Exact mode preserves every visible RGBA pixel; web mode trades detail for a much lighter file.</p>
+        <div class="actions">
+          <a class="button primary" href="#install">Trace your first PNG</a>
+          <a class="button secondary" href="https://github.com/cocodedk/png2svg/releases/latest/download/png2svg-cli-dist.zip">Download latest</a>
+        </div>
+      </div>
+      <div class="transform" role="img" aria-label="A pixel grid becomes SVG path commands">
+        <div class="pixel-card">
+          <span class="label">source.png</span>
+          <div class="pixels" aria-hidden="true">
+            <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+          </div>
+          <small>RGBA pixels</small>
+        </div>
+        <span class="arrow" aria-hidden="true">→</span>
+        <div class="path-card">
+          <span class="label">output.svg</span>
+          <svg viewBox="0 0 120 120" aria-hidden="true"><path d="M18 18h56v28h28v56H46V74H18z"/></svg>
+          <small>&lt;path d="…"/&gt;</small>
+        </div>
+      </div>
+    </section>
+    <section class="feature-grid" aria-labelledby="why-title">
+      <div class="section-heading"><p class="eyebrow">WHAT IT DOES</p><h2 id="why-title">Honest vectors, predictable output</h2></div>
+      <article><b>01</b><h3>Exact by default</h3><p>Color and alpha stay intact. Transparent pixels create no geometry.</p></article>
+      <article><b>02</b><h3>Actually vector-only</h3><p>No base64 payload, embedded PNG, browser trick, or native tracer.</p></article>
+      <article><b>03</b><h3>Built for the web</h3><p><code>--web</code> caps tracing detail and reduces colors for smaller logos and favicons.</p></article>
+    </section>
+    <section class="terminal-section" id="install">
+      <div><p class="eyebrow">QUICK START</p><h2>One dependency. One command.</h2><p>Install from GitHub, then write an SVG beside the source PNG.</p></div>
+      <div class="terminal" aria-label="Installation commands"><div class="terminal-bar"><span></span><span></span><span></span></div><pre><code><em>$</em> python -m pip install git+https://github.com/cocodedk/png2svg.git
+<em>$</em> png2svg icon.png
+<em>$</em> png2svg logo.png --web --width 256</code></pre></div>
+    </section>
+    <section class="note">
+      <h2>Know the edge</h2>
+      <p>This is lossless <strong>pixel tracing</strong>, not smooth Bézier tracing for photographs. For a crisp pixel logo, that distinction is the feature.</p>
+      <a href="https://github.com/cocodedk/png2svg#use">Read every CLI option →</a>
+    </section>
+  </main>
+  <footer><p>© 2026 <a href="https://cocode.dk" target="_blank" rel="noreferrer">Cocode</a> · Created by <a href="https://linkedin.com/in/babakbandpey" target="_blank" rel="noreferrer">Babak Bandpey</a></p><p>Small tools. Clear contracts.</p></footer>
+</body>
+</html>
