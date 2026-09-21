@@ -2,8 +2,8 @@
 
 ## Website
 
-- [English](https://cocodedk.github.io/png2svg/)
-- [فارسی (Persian)](https://cocodedk.github.io/png2svg/fa/)
+- [English](https://png2svg.cocode.dk/)
+- [فارسی (Persian)](https://png2svg.cocode.dk/fa/)
 
 
 `png2svg` converts every visible PNG pixel into SVG path geometry. It groups

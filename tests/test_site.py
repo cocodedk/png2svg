@@ -35,7 +35,7 @@ class PublicSiteTests(unittest.TestCase):
             '<html lang="en">',
             '<meta name="description"',
             '<meta name="robots" content="index, follow">',
-            '<link rel="canonical" href="https://cocodedk.github.io/png2svg/">',
+            '<link rel="canonical" href="https://png2svg.cocode.dk/">',
             '<meta property="og:image"',
             '<meta property="og:image:width" content="1200">',
             '<meta property="og:image:height" content="630">',
@@ -160,8 +160,8 @@ class PublicSiteTests(unittest.TestCase):
         robots = (WEBSITE / "robots.txt").read_text(encoding="utf-8")
         sitemap = (WEBSITE / "sitemap.xml").read_text(encoding="utf-8")
 
-        self.assertIn("https://cocodedk.github.io/png2svg/sitemap.xml", robots)
-        self.assertIn("https://cocodedk.github.io/png2svg/", sitemap)
+        self.assertIn("https://png2svg.cocode.dk/sitemap.xml", robots)
+        self.assertIn("https://png2svg.cocode.dk/", sitemap)
 
     def test_pages_workflow_is_path_scoped_and_manually_runnable(self) -> None:
         workflow = (ROOT / ".github" / "workflows" / "deploy-pages.yml").read_text(
