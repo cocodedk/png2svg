@@ -15,6 +15,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700;800&amp;display=swap">
+  <link rel="stylesheet" href="https://brand.cocode.dk/v1.css">
+  <script type="module" src="https://brand.cocode.dk/v1.js"></script>
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="png2svg">
   <meta property="og:title" content="png2svg — تبدیل پیکسل‌های PNG به مسیرهای SVG">
@@ -50,14 +52,12 @@
   </script>
 </head>
 <body>
-  <header class="site-header">
-    <a class="brand" href="../" aria-label="صفحهٔ اصلی png2svg"><span class="brand-mark" aria-hidden="true">P→S</span><span>png2svg</span></a>
-    <nav aria-label="راهبری اصلی">
-      <a href="#proof">نمونهٔ واقعی</a>
-      <a href="https://github.com/cocodedk/png2svg">گیت‌هاب</a>
-      <a class="language" href="../" lang="en" hreflang="en">English</a>
-    </nav>
-  </header>
+  <!-- The cocode.dk family frame. Without JavaScript its children show instead: a way home
+       and the language link. -->
+  <cocode-head project="png2svg" accent="#c94126" on-accent="#ffffff">
+    <a href="https://cocode.dk">cocode.dk</a>
+    <a href="../" hreflang="en">English</a>
+  </cocode-head>
   <main>
     <section class="hero" id="proof">
       <div class="hero-copy">
@@ -103,6 +103,10 @@
     </section>
     <section class="note"><div><p class="eyebrow"><span></span>مرز روشن ابزار</p><h2>اندازهٔ بهتر، نه جزئیات خیالی.</h2></div><div><p>png2svg پیکسل‌ها را ردیابی می‌کند؛ یک لوگوی تار را با منحنی بزیه از نو طراحی نمی‌کند. برای بیشترین وفاداری حالت دقیق و برای فایل سبک‌تر گزینهٔ <code class="cli-token">--web</code> را به‌کار ببرید.</p><a href="https://github.com/cocodedk/png2svg">مشاهدهٔ کد در گیت‌هاب ←</a></div></section>
   </main>
-  <footer class="page-footer"><a class="brand" href="../"><span class="brand-mark" aria-hidden="true">P→S</span><span>png2svg</span></a><p>© ۱۴۰۵ <a href="https://cocode.dk" target="_blank" rel="noreferrer">Cocode</a> · ساختهٔ <a href="https://linkedin.com/in/babakbandpey" target="_blank" rel="noreferrer">بابک بندپی</a></p><p class="footer-tagline">ابزار کوچک، قرارداد روشن.</p></footer>
+  <footer class="page-footer"><p class="footer-tagline">ابزار کوچک، قرارداد روشن.</p></footer>
+
+  <cocode-foot repo="cocodedk/png2svg">
+    <a href="https://cocode.dk">cocode.dk</a>
+  </cocode-foot>
 </body>
 </html>

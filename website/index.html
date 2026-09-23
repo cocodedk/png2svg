@@ -12,6 +12,8 @@
   <link rel="alternate" hreflang="x-default" href="https://png2svg.cocode.dk/">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://brand.cocode.dk/v1.css">
+  <script type="module" src="https://brand.cocode.dk/v1.js"></script>
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="png2svg">
   <meta property="og:title" content="png2svg — PNG pixels in, SVG paths out">
@@ -52,14 +54,12 @@
   </script>
 </head>
 <body>
-  <header class="site-header">
-    <a class="brand" href="./" aria-label="png2svg home"><span class="brand-mark" aria-hidden="true">P→S</span><span>png2svg</span></a>
-    <nav aria-label="Primary navigation">
-      <a href="#proof">Live proof</a>
-      <a href="https://github.com/cocodedk/png2svg">GitHub</a>
-      <a class="language" href="fa/" lang="fa" hreflang="fa">فارسی</a>
-    </nav>
-  </header>
+  <!-- The cocode.dk family frame. Without JavaScript its children show instead: a way home
+       and the language link. -->
+  <cocode-head project="png2svg" accent="#c94126" on-accent="#ffffff">
+    <a href="https://cocode.dk">cocode.dk</a>
+    <a href="fa/" hreflang="fa">فارسی</a>
+  </cocode-head>
   <main>
     <section class="hero" id="proof">
       <div class="hero-copy">
@@ -105,6 +105,10 @@
     </section>
     <section class="note"><div><p class="eyebrow"><span></span>THE HONEST LIMIT</p><h2>Clearer size, not invented detail.</h2></div><div><p>png2svg traces pixels; it does not redraw a blurry logo into smooth Bézier curves. Use exact mode for maximum fidelity and <code class="cli-token">--web</code> when file weight matters more.</p><a href="https://github.com/cocodedk/png2svg">View the source on GitHub →</a></div></section>
   </main>
-  <footer class="page-footer"><a class="brand" href="./"><span class="brand-mark" aria-hidden="true">P→S</span><span>png2svg</span></a><p>© 2026 <a href="https://cocode.dk" target="_blank" rel="noreferrer">Cocode</a> · Created by <a href="https://linkedin.com/in/babakbandpey" target="_blank" rel="noreferrer">Babak Bandpey</a></p><p class="footer-tagline">Small tool. Clear contract.</p></footer>
+  <footer class="page-footer"><p class="footer-tagline">Small tool. Clear contract.</p></footer>
+
+  <cocode-foot repo="cocodedk/png2svg">
+    <a href="https://cocode.dk">cocode.dk</a>
+  </cocode-foot>
 </body>
 </html>
